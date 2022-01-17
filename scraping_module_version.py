@@ -19,7 +19,6 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "hemispheres": hemispheres(browser),
         "last_modified": dt.datetime.now()
     }
 
@@ -97,69 +96,6 @@ def mars_facts():
 
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html(classes="table table-striped")
-
-def hemispheres(browser):
-        # 1. Use browser to visit the URL 
-    url = 'https://marshemispheres.com/'
-
-    browser.visit(url)
-    # 2. Create a list to hold the images and titles.
-    hemisphere_image_urls = []
-
-    # 3. Write code to retrieve the image urls and titles for each hemisphere.
-    html = browser.html
-    html_soup = soup(html, 'html.parser')
-
-    #gets the titles
-    title_one = browser.find_by_tag('h3')[0].text
-    title_two=browser.find_by_tag('h3')[1].text
-    title_three=browser.find_by_tag('h3')[2].text
-    title_four=browser.find_by_tag('h3')[3].text
-
-    #click on picture 1
-    full_image_elem = browser.find_by_tag('h3')[0]
-    full_image_elem.click()
-    # get the full res URL 
-    html = browser.html
-    img_soup = soup(html, 'html.parser')
-    img_one=img_soup.find('img', class_='wide-image').get('src')
-    
-    #clicks on picture 2 
-    browser.back()
-    full_image_elem = browser.find_by_tag('h3')[1]
-    full_image_elem.click()
-    html = browser.html
-    img_soup = soup(html, 'html.parser')
-    img_two=img_soup.find('img', class_='wide-image').get('src')
-    
-    #clicks on picture 3 
-    browser.back()
-    full_image_elem = browser.find_by_tag('h3')[2]
-    full_image_elem.click()
-    html = browser.html
-    img_soup = soup(html, 'html.parser')
-    img_three=img_soup.find('img', class_='wide-image').get('src')
-    
-    #clicks on picture 4
-    browser.back() 
-    full_image_elem = browser.find_by_tag('h3')[3]
-    full_image_elem.click()
-    html = browser.html
-    img_soup = soup(html, 'html.parser')
-    img_four=img_soup.find('img', class_='wide-image').get('src')
-    
-    #create full URL's 
-    img_url_one = f'https://marshemispheres.com/{img_one}'
-    img_url_two = f'https://marshemispheres.com/{img_two}'
-    img_url_three = f'https://marshemispheres.com/{img_three}'
-    img_url_four = f'https://marshemispheres.com/{img_four}'
-
-    # 4. Print the list that holds the dictionary of each image url and title.
-    hemisphere_image_urls = [{'img_url':img_url_one, 'title':title_one},
-                            {'img_url':img_url_two, 'title':title_two},
-                            {'img_url':img_url_three, 'title':title_three},
-                            {'img_url':img_url_four, 'title':title_four}]
-    return hemisphere_image_urls
 
 #code to tell Flask the script is complete 
 if __name__ == "__main__":

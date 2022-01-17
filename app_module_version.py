@@ -25,6 +25,6 @@ def scrape():
    mars.update_one({}, {"$set":mars_data}, upsert=True)
    return redirect('/', code=302)
 
-#tell Flask to run 
-if __name__ == "__main__":
-   app.run()
+   #tell Flask to run 
+   if __name__ == "__main__":
+    app.run()
